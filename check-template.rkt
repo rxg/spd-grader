@@ -368,7 +368,8 @@
            (tally 'nhs (and (pair? subx)
                             (>= (length subx) 2)
                             (eqv? (car subx) (ref-fn-for-t ft))      ;only works in template, not real fn
-                            (equal-sets? `((,sel ,(primary-param)) ,@(additional-params))
+                            ;; RG: DO **NOT** add additional parameters to natural helper call
+                            (equal-sets? `((,sel ,(primary-param)) #;,@(additional-params))
                                          (cdr subx)))
                   "natural helper on result of selector ~a" subx)]
           [(mref? ft)
