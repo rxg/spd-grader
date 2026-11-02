@@ -472,8 +472,10 @@ validity, and test thoroughness results are reported. No grade information is re
   (let* ([htdf '(@htdf main)]
          [defns (htdf-defns htdf)]
          [defn  (and (pair? defns) (car defns))]
-         [alist (and defn (cddr (caddr defn)))]
-
+         [alist (match defn ;ensure the defn matches the template for main
+                  [`(define (main ,ws) (big-bang ,ws (,kw* . ,args*) ...))
+                   (map (λ (kw args) `(,kw . ,args)) kw* args*)]
+                  [else #f])]
          [entry (and alist
                      (if (memq option '(on-draw to-draw))
                          (or (assq 'on-draw alist)
